@@ -3,8 +3,17 @@ package first.time.runner2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class HelloWorldController {
+
+    private final StudentRepository repository;
+
+     public HelloWorldController(StudentRepository repository){
+         this.repository = repository;
+     }
+
 
     @GetMapping(path = "/hello")
     public String helloWorld() {
@@ -19,28 +28,36 @@ public class HelloWorldController {
         return "HelloWorld2";
     }
 
-    @PostMapping("/post")
-    public String post(@RequestBody String message) {
-        return "Request accepted and message is: " + message;
+    @PostMapping("/students")
+    public Student post(
+            @RequestBody Student student
+    ){
+        return repository.save(student);
+        //return "Request accepeted and message is ";
     }
+
+    @GetMapping("/students/{student_id}")
+    public Student findStudentById( @PathVariable("student_id") Integer id){
+         return repository.findById(id).orElse(new Student());
+    }
+    @GetMapping("/students")
+    public List<Student> findallStudents(){
+         return repository.findAll();
+    }
+    @GetMapping("/students/search/{student-name}")
+    public List<Student>  findAllStudents(@PathVariable("student-name") String id){
+        return repository.findAllByFirstnameContaining(id);
+    }
+    @ DeleteMapping("/students/{student-id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(
+            @PathVariable("student-id") Integer id
+    ){
+         repository.deleteById(id);
+    }
+
+
 
     // Assuming Order is a custom class
-    @PostMapping("/post-order")
-    public String postOrder(@RequestBody Order order) {
-        return "Request accepted and order is: " + order.toString();
-    }
 
-    @PostMapping("/post-order-record")
-    public String postRecord(@RequestBody OrderRecord order) {
-        return "Request accepted and order is: " + order.toString();
-    }
-
-    @GetMapping(path = "/hello/{user-name}")
-    public String pathVar(@PathVariable("user-name") String userName) {
-        return "my value= "+ userName;
-    }
-    @GetMapping(path = "/hellop")
-    public String paramVar(@RequestParam("user-name") String userName) {
-        return "my value= "+ userName;
-    }
 }
