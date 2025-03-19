@@ -1,5 +1,6 @@
 package first.time.runner2;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +21,26 @@ public class Student {
 
         @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
         private StudentProfile studentProfile;
+
+        @ManyToOne
+        @JoinColumn(name = "school_id")//school_id will act as a foreign key in the student table
+        @JsonBackReference
+        private School school;
+
+        public void  setSchool(School school){
+                this.school = school;
+        }
+
+        public School getSchool(){
+                return this.school;
+        }
+
+        public StudentProfile getStudentProfile(){
+                return this.studentProfile;
+        }
+        public void setStudentProfile(StudentProfile studentProfile){
+                this.studentProfile = studentProfile;
+        }
 
         public Integer getId() {
                 return id;

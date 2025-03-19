@@ -8,53 +8,45 @@ import java.util.List;
 @RestController
 public class HelloWorldController {
 
-    private final StudentRepository repository;
+    private final StudentService studentService;
 
-     public HelloWorldController(StudentRepository repository){
-         this.repository = repository;
-     }
-
-
-    @GetMapping(path = "/hello")
-    public String helloWorld() {
-        return "HelloWorld";
-    }
-
-    @GetMapping(path = "/hello2")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    // The @ResponseStatus annotation in Spring is used to mark a method or an exception class with a specific HTTP status code that should be sent in the HTTP response.
-    // When applied to a method, it will instruct Spring to automatically set the status code for the HTTP response whenever that method is called.
-    public String helloWorld2() {
-        return "HelloWorld2";
+    public HelloWorldController(StudentService studentService){
+        this.studentService = studentService;
     }
 
     @PostMapping("/students")
-    public Student post(
-            @RequestBody Student student
+    public StudentResponseDto saveStudent(
+            @RequestBody StudentDto dto
     ){
-        return repository.save(student);
-        //return "Request accepeted and message is ";
+        this.studentService.saveStudent(dto);
+        //return " Request accepeted and message is ";
     }
 
     @GetMapping("/students/{student_id}")
     public Student findStudentById( @PathVariable("student_id") Integer id){
-         return repository.findById(id).orElse(new Student());
+         return studentService.findStudentById(id);
     }
+
     @GetMapping("/students")
     public List<Student> findallStudents(){
-         return repository.findAll();
+         return studentService.findallStudents();
     }
+
+
     @GetMapping("/students/search/{student-name}")
     public List<Student>  findAllStudents(@PathVariable("student-name") String id){
-        return repository.findAllByFirstnameContaining(id);
+        return studentService.findAllStudents(id);
     }
+
     @ DeleteMapping("/students/{student-id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(
             @PathVariable("student-id") Integer id
     ){
-         repository.deleteById(id);
+         studentService.delete(id);
     }
+
+
 
 
 

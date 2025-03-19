@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    networks:
+      - my-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    networks:
+      - my-network
+    ports:
+      - "8080:8080"
+
+  top-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: top-container
+    networks:
+      - my-network
+    command: top -b
+    tty: true
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
