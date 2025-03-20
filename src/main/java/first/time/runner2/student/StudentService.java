@@ -1,9 +1,9 @@
-package first.time.runner2;
+package first.time.runner2.student;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -16,16 +16,21 @@ public class StudentService {
         this.studentMapper = studentMapper;
     }
 
+    public  List<StudentResponseDto> findAllByFirstname(String name ){
+        return repository.findAllByFirstnameContaining(name).stream().map(studentMapper::tostudentResponseDto).collect(Collectors.toList());
+    }
+
     public StudentResponseDto saveStudent(  StudentDto dto){
         var student =studentMapper.toStudent(dto);
         var savedStudent = repository.save(student);
         return studentMapper.tostudentResponseDto(savedStudent);
     }
-    public Student findStudentById( Integer id){
-        return repository.findById(id).orElse(new Student());
+    public StudentResponseDto findStudentById( Integer id){
+        return repository.findById(id).map(studentMapper::tostudentResponseDto).orElse(null);
     }
-    public List<Student> findallStudents(){
-        return repository.findAll();
+    public List<StudentResponseDto> findallStudents(){
+        return repository.findAll().stream().map(studentMapper::tostudentResponseDto).collect(Collectors.toList());
+
     }
 
     public List<Student>  findAllStudents(String id){

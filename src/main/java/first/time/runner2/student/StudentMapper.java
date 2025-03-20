@@ -1,5 +1,6 @@
-package first.time.runner2;
+package first.time.runner2.student;
 
+import first.time.runner2.school.School;
 import org.springframework.stereotype.Service;
 
 @Service

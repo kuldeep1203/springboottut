@@ -1,4 +1,4 @@
-package first.time.runner2;
+package first.time.runner2.school;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

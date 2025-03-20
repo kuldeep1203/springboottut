@@ -1,6 +1,8 @@
-package first.time.runner2;
+package first.time.runner2.student;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import first.time.runner2.school.School;
+import first.time.runner2.studentProfile.StudentProfile;
 import jakarta.persistence.*;
 
 @Entity

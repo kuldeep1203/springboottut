@@ -1,7 +1,8 @@
-package first.time.runner2;
+package first.time.runner2.school;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import first.time.runner2.student.Student;
 import jakarta.persistence.*;
 
 import java.util.List;

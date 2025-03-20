@@ -1,6 +1,7 @@
-package first.time.runner2;
+package first.time.runner2.studentProfile;
 
 
+import first.time.runner2.student.Student;
 import jakarta.persistence.*;
 
 @Entity
